@@ -7,7 +7,7 @@ using namespace std;
 int main(){
     double xq = 50;
     uint fTC = 0;
-    uint a[5] = {2,3,5,3,2};
+    uint a[3] = {2,3,2};
     world w;
     car c(w,vector2d(50,50));
     
@@ -24,8 +24,7 @@ int main(){
     w.add(p2);
     w.add(p3);
     
-    Network n(a,5);
-    n.LoadFile("test.snn");
+    Network n(a,3);
     Trainer tr(n,0.1,10);
     Network n2 = n;
     n.randomize(1);
@@ -35,8 +34,8 @@ int main(){
         n2.setInput(0,c.left.getDistance()/MAX_DOUBLE-0.5);
         n2.setInput(1,c.right.getDistance()/MAX_DOUBLE-0.5);
         n2.update();
-        c.setRotspeed(n2.getOutput()[0]-n2.getOutput()[1]);
-        c.setSpeed((n2.getOutput()[0]+n2.getOutput()[1])/2);
+        c.setRotspeed(n2.getOutput()[0]-0.5);
+        c.setSpeed(n2.getOutput()[1]);
         
         cout <<  n2.getOutput()[0] << "|" << n2.getOutput()[1] << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
         
