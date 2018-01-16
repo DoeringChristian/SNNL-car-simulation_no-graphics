@@ -40,7 +40,7 @@ Vectord Vectord::operator *(const Matrixd &m) const{
 Vectord Vectord::operator +(const Vectord &v) const{
     Vectord v2(v.size());
     if(v.size() == this->size())
-        for(uint i = 0;i < v.size();i++)
+        for(int i = 0;i < v.size();i++)
             v2[i] = v[i]+this->vect[i];
     return v2;
 }

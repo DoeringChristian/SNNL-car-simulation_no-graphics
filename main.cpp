@@ -25,6 +25,7 @@ int main(){
     w.add(p3);
     
     Network n(a,5);
+    n.LoadFile("test.snn");
     Trainer tr(n,0.1,10);
     Network n2 = n;
     n.randomize(1);
