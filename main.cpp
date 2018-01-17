@@ -7,7 +7,7 @@ using namespace std;
 int main(){
     double xq = 50;
     uint fTC = 0;
-    uint a[3] = {2,2,2};
+    uint a[2] = {2,2};
     world w;
     car c(w,vector2d(50,50));
     
@@ -24,7 +24,7 @@ int main(){
     w.add(p2);
     w.add(p3);
     
-    Network n(a,3);
+    Network n(a,2);
     Trainer tr(n,0.1,10);
     Network n2 = n;
     n.randomize(1);
