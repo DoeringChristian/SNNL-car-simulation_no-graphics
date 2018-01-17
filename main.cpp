@@ -7,7 +7,7 @@ using namespace std;
 int main(){
     double xq = 50;
     uint fTC = 0;
-    uint a[3] = {2,3,2};
+    uint a[3] = {2,2,2};
     world w;
     car c(w,vector2d(50,50));
     
