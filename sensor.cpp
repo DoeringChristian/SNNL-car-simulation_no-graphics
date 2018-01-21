@@ -2,12 +2,10 @@
 #include <iostream>
 
 sensor::sensor(){
-    this->distance = MAX_DOUBLE;
-    this->rotation = 3.1415926535897932384626433832795;
+    rotation = 3.1415926535897932384626433832795;
+    distance = MAX_DOUBLE;
 }
 sensor::sensor(vector2d pos){
-    this->distance = MAX_DOUBLE;
-    this->rotation = 3.1415926535897932384626433832795;
     this->A = pos;
 }
 
@@ -41,9 +39,10 @@ void sensor::update(world &w){
                 cross.x = xtop/div;
                 cross.y = ytop/div;
             }
-            double dall = sqrt(pow(C.x-D.x,2)+pow(C.y-D.y,2));
-            double dboth = sqrt(pow(C.x-cross.x,2)+pow(C.y-cross.y,2))+sqrt(pow(cross.x-D.x,2)+pow(cross.y-D.y,2));
-            if(dall >= dboth){
+            //double dall = sqrt(pow(C.x-D.x,2)+pow(C.y-D.y,2));
+            //double dboth = sqrt(pow(C.x-cross.x,2)+pow(C.y-cross.y,2))+sqrt(pow(cross.x-D.x,2)+pow(cross.y-D.y,2));
+            //if(dall >= dboth){
+            if((C-D).length()+1 >= (C-cross).length()+(D-cross).length()){
                 if((A-cross).length() > (B-cross).length())
                         if((A-cross).length() < distance){
                             distance = (A-cross).length();
@@ -54,7 +53,7 @@ void sensor::update(world &w){
             
         }
     if(distance == MAX_DOUBLE)
-        E = A+(B-A)*MAX_DOUBLE/2;//sqrt(pow(rw.getSize().x,2)+pow(rw.getSize().y,2));
+        E = A+(B-A)*MAX_DOUBLE/2;
     
 }
 

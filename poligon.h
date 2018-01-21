@@ -18,7 +18,7 @@ public:
     void operator =(const poligon &copy);
     uint size() const;
     void draw();
-    
+    bool Contains(const vector2d &inside) const;
 };
 
 #endif // POLIGON_H

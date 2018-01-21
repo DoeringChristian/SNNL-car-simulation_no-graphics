@@ -56,6 +56,14 @@ void vector2d::operator /=(double div){
     this->y /= div;
 }
 
+double vector2d::operator *(const vector2d &mult) const{
+    return this->x*mult.x+this->y+mult.y;
+}
+
+vector2d vector2d::rotate(double angle) const{
+    return vector2d(this->x*cos(angle)+this->y*sin(angle),this->x*(-sin(angle))+this->y*cos(angle));
+}
+
 
 
 

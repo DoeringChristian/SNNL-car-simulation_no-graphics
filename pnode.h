@@ -4,7 +4,7 @@
 
 struct pnode{
     pnode *next;
-    pnode *befor;
+    pnode *befor; 
     poligon *p;
     pnode();
     ~pnode();

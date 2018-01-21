@@ -3,6 +3,12 @@
 #include "pnode.h"
 #include "cube.h"
 #include "sensor.h"
+#include "string"
+#include "fstream"
+#include "iostream"
+#include "stdlib.h"
+
+using namespace std;
 
 class world{
     pnode *start;
@@ -17,6 +23,7 @@ public:
     poligon &operator [](uint index) const;
     
     void update();
+    bool LoadFile(string file);
 };
 
 #endif // WORLD_H

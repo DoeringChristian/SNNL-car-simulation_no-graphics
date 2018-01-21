@@ -19,8 +19,9 @@ struct vector2d{
     void operator *=(double mult);
     vector2d operator /(double div) const;
     void operator /=(double div);
-    
+    double operator *(const vector2d &mult) const;
     double length() const;
+    vector2d rotate(double angle) const;
     
 };
 

@@ -1,8 +1,8 @@
 #include "world.h"
 
 world::world(){
-    start = 0;
-    end = 0;
+    this->start = 0;
+    this->end = 0;
 }
 world::~world(){
     if(start != 0){
@@ -16,20 +16,16 @@ world::~world(){
 }
 
 void world::add(poligon &insert){
-    pnode *n = start;
-    if(n == 0){
+    if(start == 0){
         start = new pnode;
         start->p = &insert;
         end = start;
     }
     else{
-        while(n != end)
-            n = n->next;
-        pnode *n2 = new pnode;
-        end = n2;
-        n->next = n2;
-        n2->befor = n;
-        n2->p = &insert;
+        end->next = new pnode;
+        end->next->p = &insert;
+        end->next->befor = end;
+        end = end->next;
     }
 }
 
@@ -55,13 +51,7 @@ void world::del(poligon &del){
 }
 
 void world::update(){
-    pnode *n = start;
-    if(start != 0){
-        while(n != 0){
-            n->p->draw();
-            n = n->next;
-        }
-    }
+    
 }
 
 uint world::size() const{
@@ -82,6 +72,56 @@ poligon &world::operator [](uint index) const{
         n = n->next;
     }
     return *(n->p);
+}
+
+bool world::LoadFile(const string file){
+    ifstream in;
+    in.open(file.c_str());
+    if(in.good()){
+        char test = ' ';
+        while(test != ';'){
+            test = in.get();
+        };
+        string line;
+        while(line != "end;"){
+            line = "";
+            char c = in.get();
+            while(c != ';'){
+                c = in.get();
+                line.append(string(1,c));
+            }
+            if(line[0] == '\n')
+                line = line.substr(1,line.length()-1);
+            //add poligons
+            if(line != "end;"){
+                string coords = line.substr(line.find_first_of(':')+1,line.find_last_of(';')-line.find_first_of(':')-1);
+                uint length = 0;
+                for(uint i = 0;i < coords.length();i++)
+                    if(coords[i] == '|')
+                        length++;
+                length++;
+                poligon *p = new poligon(length);
+                string splited[length];
+                uint j = 0;
+                for(uint i = 0;i < coords.length();i++){
+                    if(coords[i] == '|')
+                        j++;
+                    else
+                        splited[j] += coords[i];
+                }
+                for(uint i = 0;i < length;i++){
+                    (*p)[i] = vector2d(atof(splited[i].substr(0,splited[i].find_first_of(',')).c_str()),
+                                       atof(splited[i].substr(splited[i].find_first_of(',')+1,splited[i].length()-splited[i].find_first_of(',')).c_str()));
+                }
+                this->add(*p);
+                cout << (*p)[0].y << endl;
+            }
+        }
+        
+    }
+    else
+        return false;
+    in.close();
 }
 
 
