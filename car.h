@@ -9,15 +9,15 @@ class car{
     vector2d pos;
     double rotation;
     double rotspeed;
-    double sensorangel;
     double speed;
     world *w;
     vector2d size;
+    sensor *s;
+    uint length;
 public:
-    sensor left;
-    sensor right;
     car();
-    car(world &w,vector2d pos,double rotation = 0);
+    car(world &w,vector2d pos,uint sensors,double rotation = 0);
+    ~car();
     void upate();
     void setRotspeed(double rotspeed);
     void setSpeed(double speed);
@@ -25,6 +25,8 @@ public:
     void setPosition(vector2d pos);
     void setRotation(double rotation);
     bool isColliding();
+    uint getLength() const;
+    sensor &operator [](const unsigned int i) const;
     
 };
 

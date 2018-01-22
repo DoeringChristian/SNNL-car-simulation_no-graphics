@@ -6,23 +6,30 @@ using namespace std;
 
 int main(){
     double xq = 50;
+    bool isVisible = true;
     uint fTC = 0;
-    uint a[2] = {2,2};
+    uint a[4] = {5,4,3,2};
     world w;
-    car c(w,vector2d(50,50));
+    car c(w,vector2d(50,50),5);
+    c[0] = sensor(vector2d(0,0),1);
+    c[1] = sensor(vector2d(0,0),-1);
+    c[2] = sensor(vector2d(0,0),0.15);
+    c[3] = sensor(vector2d(0,0),-0.15);
+    c[4] = sensor(vector2d(0,0),0);
+    
     
     w.LoadFile("test.sim");
     
-    Network n(a,2);
+    Network n(a,4);
     n.LoadFile("test.snn");
-    Trainer tr(n,0.1,5);
+    Trainer tr(n,0.1,10);
     Network n2 = n;
     n.randomize(1);
     while(true){
         
         
-        n2.setInput(0,c.left.getDistance()/MAX_DOUBLE-0.5);
-        n2.setInput(1,c.right.getDistance()/MAX_DOUBLE-0.5);
+        for(uint i = 0;i < n2.sizeAt(0);i++)
+            n2.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
         n2.update();
         
         c.setRotspeed((n2.getOutput()[0]-0.5));
@@ -43,8 +50,9 @@ int main(){
         xq += sqrt(pow(c.getPosition().y-50,2));
         
         srand(time(0));
-        c.upate();
+        
         w.update();
+        c.upate();
     }
     tr[0].SavetoFile("test.snn");
     return 0;

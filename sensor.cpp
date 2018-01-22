@@ -2,11 +2,23 @@
 #include <iostream>
 
 sensor::sensor(){
-    rotation = 3.1415926535897932384626433832795;
     distance = MAX_DOUBLE;
+    rotation = 3.1415926535897932384626433832795;
+    m_rotation = 0;
 }
-sensor::sensor(vector2d pos){
+sensor::sensor(vector2d pos, double m_rotation){
     this->A = pos;
+    distance = MAX_DOUBLE;
+    rotation = 3.1415926535897932384626433832795;
+    this->m_rotation = m_rotation;
+}
+
+void sensor::operator =(const sensor &copy){
+    this->A = copy.A;
+    this->distance = copy.distance;
+    this->rotation = copy.rotation;
+    this->E = copy.E;
+    this->m_rotation = copy.m_rotation;
 }
 
 double sensor::getDistance(){
