@@ -24,7 +24,7 @@ int main(){
     n.LoadFile("test.snn");
     Trainer tr(n,0.1,10);
     Network n2 = n;
-    n.randomize(1);
+    //n.randomize(1);
     while(true){
         
         
