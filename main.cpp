@@ -39,7 +39,7 @@ int main(){
         
         if(c.getPosition().x < 0 || c.getPosition().x > 10000 || c.isColliding() || fTC > 10000){
             xq /= fTC;
-            n2 = tr.update(-(c.getPosition().x-xq/fTC),1/(c.getPosition().x-xq/fTC));//0.001);
+            n2 = tr.update(-(c.getPosition().x-xq/fTC),-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
