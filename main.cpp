@@ -5,10 +5,12 @@
 using namespace std;
 
 int main(){
+    srand(time(0));
     double xq = 50;
     bool isVisible = true;
     uint fTC = 0;
     uint a[4] = {5,4,3,2};
+    uint generation = 0;
     world w;
     car c(w,vector2d(50,50),5);
     c[0] = sensor(vector2d(0,0),1);
@@ -22,7 +24,7 @@ int main(){
     
     Network n(a,4);
     n.LoadFile("test.snn");
-    Trainer tr(n,0.1,10);
+    Trainer tr(n,1,10);
     Network n2 = n;
     //n.randomize(1);
     while(true){
@@ -35,11 +37,12 @@ int main(){
         c.setRotspeed((n2.getOutput()[0]-0.5));
         c.setSpeed(n2.getOutput()[1]-0.5);
         
-        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1]-0.5 << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;
-        
-        if(c.getPosition().x < 0 || c.getPosition().x > 10000 || c.isColliding() || fTC > 10000){
+        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1]-0.5 << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
+        if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
-            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.001);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
+            if(tr.currentNet == 0)
+                generation++;
+            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
@@ -48,9 +51,7 @@ int main(){
         }
         fTC ++;
         xq += sqrt(pow(c.getPosition().y-50,2));
-        
-        srand(time(0));
-        
+
         w.update();
         c.upate();
     }
