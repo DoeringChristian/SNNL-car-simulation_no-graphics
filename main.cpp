@@ -12,7 +12,7 @@ int main(){
     uint a[4] = {5,4,3,2};
     uint generation = 0;
     world w;
-    car c(w,vector2d(50,50),5);
+    car c(w,vector2d(50,50),5,0.01);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
@@ -42,7 +42,7 @@ int main(){
             xq /= fTC;
             if(tr.currentNet == 0)
                 generation++;
-            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
+            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.3,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;

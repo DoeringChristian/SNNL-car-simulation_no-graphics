@@ -13,10 +13,11 @@ class car{
     world *w;
     vector2d size;
     sensor *s;
+    double max_angle;
     uint length;
 public:
     car();
-    car(world &w,vector2d pos,uint sensors,double rotation = 0);
+    car(world &w,vector2d pos,uint sensors,double rotation = 0,double max_angle = 0.01);
     ~car();
     void upate();
     void setRotspeed(double rotspeed);
