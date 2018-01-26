@@ -9,7 +9,7 @@ car::car(){
     length = 0;
     this->max_angle = 0.01;
 }
-car::car(world &w, vector2d pos, uint sensors, double rotation, double max_angle){
+car::car(world &w, vector2d pos, uint sensors, double max_angle, double rotation){
     this->pos = pos;
     this->rotation = rotation;
     this->w = &w;
