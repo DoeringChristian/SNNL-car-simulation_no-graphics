@@ -23,7 +23,8 @@ int main(){
     w.LoadFile("test.sim");
     
     Network n(a,4,false);
-    n.LoadFile("test.snn");
+    if(!n.LoadFile("test.snn"))
+        n.randomize(1,2);
     Trainer tr(n,1,10);
     Network n2 = n;
     //n.randomize(1);
