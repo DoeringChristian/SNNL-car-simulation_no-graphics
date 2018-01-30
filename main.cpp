@@ -26,19 +26,19 @@ int main(){
     if(!n.LoadFile("test.snn"))
         n.randomize(1,2);
     Trainer tr(n,1,10);
-    Network n2 = n;
+    n = tr.current();
     //n.randomize(1);
     while(true){
         
         
-        for(uint i = 0;i < n2.sizeAt(0);i++)
-            n2.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
-        n2.update();
+        for(uint i = 0;i < n.sizeAt(0);i++)
+            n.setInput(i,c[i].getDistance()/MAX_DOUBLE-0.5);
+        n.update();
         
-        c.setRotspeed((n2.getOutput()[0]-0.5));
-        c.setSpeed(n2.getOutput()[1]);
+        c.setRotspeed((n.getOutput()[0]-0.5));
+        c.setSpeed(n.getOutput()[1]);
         
-        cout <<  n2.getOutput()[0]-0.5 << "|" << n2.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
+        cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
             xq /= fTC;
             if(tr.currentNet == tr.size()-1)
@@ -49,7 +49,7 @@ int main(){
                 log << "position: " << c.getPosition().x << " generation: " << generation << endl;
                 log.close();
             }
-            n2 = tr.update(-(c.getPosition().x-xq/fTC),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
+            n = tr.update(-(c.getPosition().x-xq/fTC),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             xq = 50;
