@@ -21,6 +21,8 @@ poligon::~poligon(){
 }
 
 void poligon::operator =(const poligon &copy){
+	if(&copy == this)
+        return;
     delete [] points;
     this->length = copy.length;
     this->points = new vector2d[length];
