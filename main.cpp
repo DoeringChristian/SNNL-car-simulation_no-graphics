@@ -6,8 +6,9 @@ using namespace std;
 
 int main(){
     srand(time(0));
-    double xq = 50;
     bool isVisible = true;
+    vector2d car_prev;
+    double score = 0;
 
     //set max generation
     int maxgen = -1;
@@ -45,10 +46,12 @@ int main(){
         
         c.setRotspeed((n.getOutput()[0]-0.5));
         c.setSpeed(n.getOutput()[1]);
+        score += (c.getPosition()-car_prev).length();
+        car_prev = c.getPosition();
         
         //cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
         if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
-            xq /= fTC;
+            cout << "network: " << tr.currentNet << endl;
             if(tr.currentNet == tr.size()-1){
                 cout << "generation: " << generation << " networks: ";
                 generation++;
@@ -60,10 +63,11 @@ int main(){
                 log.close();
             }
             
-            n = tr.update(-(c.getPosition().x-xq/fTC),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
+            n = tr.update(-(score),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
-            xq = 50;
+            car_prev = c.getPosition();
+            score = 0;
             fTC = 0;
             tr[0].SavetoFile("test.snn");
              //max generation exeption
@@ -71,7 +75,6 @@ int main(){
                 break;
         }
         fTC ++;
-        xq += sqrt(pow(c.getPosition().y-50,2));
 
         w.update();
         c.upate();
