@@ -59,7 +59,7 @@ int main(){
             if(tr.currentNet == 0){
                 ofstream log;
                 log.open("log.txt",ofstream::out | ofstream::app);
-                log << "position: " << c.getPosition().x << " generation: " << generation << endl;
+                log << "score: " << score << " generation: " << generation << endl;
                 log.close();
             }
             
