@@ -50,7 +50,7 @@ int main(){
         car_prev = c.getPosition();
         
         //cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
-        if(c.isColliding() || fTC > 10000 || (fTC > 1000 && c.getPosition().x < 60)){
+        if(c.isColliding() || fTC > 10000 || (fTC > 1000 && score < 10)){
             cout << "network: " << tr.currentNet << endl;
             if(tr.currentNet == tr.size()-1){
                 cout << "generation: " << generation << " networks: ";
