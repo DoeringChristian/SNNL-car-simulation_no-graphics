@@ -54,6 +54,9 @@ int main(){
             cout << "network: " << tr.currentNet << endl;
             if(tr.currentNet == tr.size()-1){
                 cout << "generation: " << generation << " networks: ";
+                for(uint i = 0;i < tr.size();i++)
+                    cout << tr[i].getFitness() << "|";
+                cout << endl;
                 generation++;
             }
             if(tr.currentNet == 0){
