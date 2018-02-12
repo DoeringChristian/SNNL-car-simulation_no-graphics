@@ -9,6 +9,7 @@ int main(){
     bool isVisible = true;
     vector2d car_prev;
     double score = 0;
+    double max_score = 0;
 
     //set max generation
     int maxgen = -1;
@@ -65,8 +66,10 @@ int main(){
                 log << "score: " << score << " generation: " << generation << endl;
                 log.close();
             }
+            if(score > max_score)
+                max_score = score;
             
-            n = tr.update(-(score),0.1,0.1);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
+            n = tr.update(-(score),0.1,10/max_score);//-((pow(c.getPosition().x,2)*0.01)/(pow(c.getPosition().x,2)*10)+0.01));//0.1/(c.getPosition().x-xq/fTC));//0.001);
             c.setPosition(vector2d(50,50));
             c.setRotation(1.5);
             car_prev = c.getPosition();
