@@ -18,7 +18,7 @@ public:
     void setRotation(double rotation);
     void update(world &w);
     double getDistance();
-    void operator = (const sensor &copy);
+    void operator =(const sensor &copy);
 };
 
 #endif // SENSOR_H

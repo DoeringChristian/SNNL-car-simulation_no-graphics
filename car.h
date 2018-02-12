@@ -19,7 +19,8 @@ public:
     car();
     car(world &w, vector2d pos, uint sensors, double max_angle = 0.01, double rotation = 1.5);
     ~car();
-    void upate();
+    void operator =(const car &copy);
+    void update();
     void setRotspeed(double rotspeed);
     void setSpeed(double speed);
     vector2d getPosition() const;
