@@ -114,7 +114,6 @@ bool world::LoadFile(const string file){
                                        atof(splited[i].substr(splited[i].find_first_of(',')+1,splited[i].length()-splited[i].find_first_of(',')).c_str()));
                 }
                 this->add(*p);
-                cout << (*p)[0].y << endl;
             }
         }
         

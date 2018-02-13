@@ -4,15 +4,40 @@
 
 using namespace std;
 
-int main(){
+int main(int argc, char *argv[]){
     double max_score = 0;
-
-    //set max generation
+    double randomness = 0.3,shift = 0.1;
+    string saveto = "test.snn";
+    string loadfrom = "test.snn";
+    string config = "config.txt";
+    uint population = 10;
     int maxgen = -1;
-    string in;
-    cout << "max generations (-1 for infinit):" << endl;
-    cin >> in;
-    maxgen = atoi(in.c_str());
+
+    if(argc <= 1){
+        cout << "max generations (-1 for infinit):" << endl;
+        cin >> maxgen;
+        cout << "settings file:" << endl;
+        cin >> config;
+        
+    }
+    else{
+        if(argc > 1)
+            maxgen = atoi(argv[1]);
+        if(argc > 2)
+            config = argv[2];
+    }
+    ifstream con;
+    con.open(config.c_str());
+    if(con.is_open()){
+        con >> saveto;
+        con >> loadfrom;
+        con >> population;
+        con >> randomness;
+        con >> shift;
+        cout << randomness << "|" << shift << endl;
+    }
+    con.close();
+        
 
     uint fTC = 0;
     uint a[4] = {5,4,3,2};
@@ -26,10 +51,10 @@ int main(){
     c[4] = sensor(vector2d(0,0),0);
     
     
-    w.LoadFile("test.sim");
+    w.LoadFile("world.sim");
     
     Network n(a,4,false);
-    if(!n.LoadFile("test.snn"))
+    if(!n.LoadFile(loadfrom))
         n.randomize(1,2);
     Trainer tr(n,10);
     
@@ -44,6 +69,8 @@ int main(){
     while(true){
         
         for(uint i = 0;i < tr.size();i++){
+            if(isAlive[i])
+                agents[i].update();
             for(uint j = 0;j < tr[i].sizeAt(0);j++)
                 tr[i].setInput(j,agents[i][j].getDistance()/MAX_DOUBLE-0.5);
             tr[i].update();
@@ -66,40 +93,37 @@ int main(){
                     isAlive[i] = false;
        
         
-        //cout <<  n.getOutput()[0]-0.5 << "|" << n.getOutput()[1] << "|" << generation << "|" << tr.currentNet << "|" << fTC << "|" << c.getPosition().x << endl;        
         if(crash || fTC > 10000){
-            tr.update(0.1,10/max_score);
-            for(uint i = 0;i < tr.size();i++){
-                agents[i] = c;
-                isAlive[i] = true;
-            }
-            generation++;
-            cout << "generation: " << generation << " best: " << tr[tr.best()].getFitness() << endl;
-
-            fTC = 0;
-            tr.resetFitness();
+            //log has to be befor update
+            cout << "generation: " << generation << " best: " << tr[tr.best()].getFitness() << " fitness: ";
+            for(uint i = 0;i < tr.size();i++)
+                cout << tr[i].getFitness() << "|";
+            cout << endl;
             //logging:
             ofstream log;
             log.open("log.txt",ofstream::out | ofstream::app);
             log << "score: " << tr[tr.best()].getFitness() << " generation: " << generation << endl;
             log.close();
-            tr[tr.best()].SavetoFile("test.snn");
+            tr[tr.best()].SavetoFile(saveto);
+            
+            tr.update(randomness,shift);
+            for(uint i = 0;i < tr.size();i++){
+                agents[i] = c;
+                isAlive[i] = true;
+                car_prev[i] = agents[i].getPosition();
+            }
+            generation++;
+            
+            fTC = 0;
+            tr.resetFitness();
             if(maxgen > -1 && generation > maxgen)
                 break;
         }
-#if 0
-        uint best = 0;
-        for(uint i = 0;i < tr.size();i++)
-            if(isAlive[i] && tr[i].getFitness() < tr[best].getFitness())
-                best = i;
-#endif
+        else
+            fTC ++;
 
         w.update();
-        for(uint i = 0;i < tr.size();i++)
-            if(isAlive[i])
-                agents[i].update();
-        fTC++;
     }
-    tr[0].SavetoFile("test.snn");
+    tr[0].SavetoFile(saveto);
     return 0;
 }
