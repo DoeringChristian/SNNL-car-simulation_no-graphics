@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
     Network n(a,4,false);
     if(!n.LoadFile(loadfrom))
         n.randomize(1,2);
-    Trainer tr(n,10);
+    Trainer tr(n,population);
     
     car agents[tr.size()];
     for(uint i = 0;i < tr.size();i++)
