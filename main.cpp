@@ -10,6 +10,8 @@ int main(int argc, char *argv[]){
     string saveto = "test.snn";
     string loadfrom = "test.snn";
     string config = "config.txt";
+    string worldfile = "world.sim";
+    string logfile = "log.txt";
     uint population = 10;
     int maxgen = -1;
 
@@ -29,8 +31,10 @@ int main(int argc, char *argv[]){
     ifstream con;
     con.open(config.c_str());
     if(con.is_open()){
-        con >> saveto;
         con >> loadfrom;
+        con >> saveto;
+        con >> worldfile;
+        con >> logfile;
         con >> population;
         con >> randomness;
         con >> shift;
@@ -51,7 +55,7 @@ int main(int argc, char *argv[]){
     c[4] = sensor(vector2d(0,0),0);
     
     
-    w.LoadFile("world.sim");
+    w.LoadFile(worldfile);
     
     Network n(a,4,false);
     if(!n.LoadFile(loadfrom))
@@ -101,8 +105,11 @@ int main(int argc, char *argv[]){
             cout << endl;
             //logging:
             ofstream log;
-            log.open("log.txt",ofstream::out | ofstream::app);
-            log << "score: " << tr[tr.best()].getFitness() << " generation: " << generation << endl;
+            log.open(logfile.c_str(),ofstream::out | ofstream::app);
+            log << "generation: " << generation << " best: " << tr[tr.best()].getFitness() << " fitness: ";
+            for(uint i = 0;i < tr.size();i++)
+                log << tr[i].getFitness() << "|";
+            log << endl;
             log.close();
             tr[tr.best()].SavetoFile(saveto);
             

@@ -1,5 +1,7 @@
 test.snn
 test.snn
+world.sim
+log.txt
 10
 0.1
 0.05
