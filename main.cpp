@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
     uint a[4] = {5,4,3,2};
     uint generation = 0;
     world w;
-    car c(w,vector2d(50,50),5,0.02);
+    car c(w,vector2d(0,0),5,0.02);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
