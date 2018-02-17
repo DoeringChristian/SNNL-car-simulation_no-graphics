@@ -1,7 +1,14 @@
 test.snn
-test.snn
-world.sim
+
+test2.snn
+
+world3.sim
+
 log.txt
+
 10
+
 0.1
 0.05
+3.14159
+0.02

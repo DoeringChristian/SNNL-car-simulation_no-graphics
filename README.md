@@ -9,3 +9,5 @@ log file
 population
 randomness
 shift
+rotation
+max_rotation

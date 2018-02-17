@@ -13,6 +13,8 @@ int main(int argc, char *argv[]){
     string worldfile = "world.sim";
     string logfile = "log.txt";
     uint population = 10;
+	double rotation = 1.5;
+	double max_rotation = 0.02;
     int maxgen = -1;
 
     if(argc <= 1){
@@ -38,6 +40,8 @@ int main(int argc, char *argv[]){
         con >> population;
         con >> randomness;
         con >> shift;
+		con >> rotation;
+		con >> max_rotation;
         cout << randomness << "|" << shift << endl;
     }
     con.close();
@@ -47,7 +51,7 @@ int main(int argc, char *argv[]){
     uint a[4] = {5,4,3,2};
     uint generation = 0;
     world w;
-    car c(w,vector2d(0,0),5,0.02);
+    car c(w,vector2d(0,0),5,max_rotation,rotation);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
