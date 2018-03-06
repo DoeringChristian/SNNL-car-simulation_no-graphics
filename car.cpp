@@ -7,9 +7,8 @@ car::car(){
     rotspeed = 0;
     this->s = 0;
     length = 0;
-    this->max_angle = 0.01;
 }
-car::car(world &w, vector2d pos, uint sensors, double max_angle, double rotation){
+car::car(world &w, vector2d pos, uint sensors, double rotation){
     this->pos = pos;
     this->rotation = rotation;
     this->w = &w;
@@ -18,7 +17,6 @@ car::car(world &w, vector2d pos, uint sensors, double max_angle, double rotation
     s = new sensor[sensors];
     for(uint i = 0;i < sensors;i++)
         s[i] = sensor(pos,0);
-    this->max_angle = max_angle;
 }
 
 car::~car(){
@@ -33,7 +31,6 @@ void car::operator =(const car &copy){
     s = new sensor[length];
     for(uint i = 0;i < length;i++)
         s[i] = copy[i];
-    this->max_angle = copy.max_angle;
     this->pos = copy.pos;
     this->rotation = copy.rotation;
     this->rotspeed = copy.rotspeed;
@@ -56,12 +53,7 @@ void car::update(){
 }
 
 void car::setRotspeed(double rotspeed){
-    if(rotspeed < max_angle && rotspeed > -max_angle)
-        this->rotspeed = rotspeed;
-    else if(rotspeed < 0)
-        this->rotspeed = -max_angle;
-    else
-        this->rotspeed = max_angle;
+    this->rotspeed = rotspeed;
 }
 void car::setSpeed(double speed){
     this->speed = speed;

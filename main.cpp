@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     uint a[4] = {5,4,3,2};
     uint generation = 0;
     world w;
-    car c(w,vector2d(0,0),5,max_rotation,rotation);
+    car c(w,vector2d(0,0),5,rotation);
     c[0] = sensor(vector2d(0,0),1);
     c[1] = sensor(vector2d(0,0),-1);
     c[2] = sensor(vector2d(0,0),0.15);
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
             for(uint j = 0;j < tr[i].sizeAt(0);j++)
                 tr[i].setInput(j,agents[i][j].getDistance()/MAX_DOUBLE-0.5);
             tr[i].update();
-            agents[i].setRotspeed(tr[i].getOutput()[0]-0.5);
+            agents[i].setRotspeed(tr[i].getOutput()[0]*max_rotation*2-max_rotation);
             agents[i].setSpeed(tr[i].getOutput()[1]);
             tr[i].setFitness(tr[i].getFitness()-(agents[i].getPosition()-car_prev[i]).length());
             car_prev[i] = agents[i].getPosition();
