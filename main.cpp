@@ -1,6 +1,7 @@
 #include <iostream>
 #include "simulation.h"
 #include "network.h"
+#include <sstream>
 
 using namespace std;
 
@@ -17,6 +18,8 @@ int main(int argc, char *argv[]){
 	double max_rotation = 0.02;
     double swap_percentage = 0.3;
     int maxgen = -1;
+    int world_counter = 0;
+    int max_world = 1;
 
     if(argc <= 1){
         cout << "max generations (-1 for infinit):" << endl;
@@ -46,6 +49,7 @@ int main(int argc, char *argv[]){
         con >> swap_percentage;
 		con >> rotation;
 		con >> max_rotation;
+		con >> max_world;
          //test print
         cout << loadfrom << endl;
         cout << saveto << endl;
@@ -58,6 +62,7 @@ int main(int argc, char *argv[]){
         cout << swap_percentage << endl;
         cout << rotation << endl;
         cout << max_rotation << endl;
+        cout << max_world << endl;
     }
     con.close();
         
@@ -74,7 +79,8 @@ int main(int argc, char *argv[]){
     c[4] = sensor(vector2d(0,0),0);
     
     
-    w.LoadFile(worldfile);
+    w.LoadFile(worldfile+"0.sim");
+    std::ostringstream oss;
     
     Network n(a,4,false);
     if(!n.LoadFile(loadfrom))
@@ -142,6 +148,15 @@ int main(int argc, char *argv[]){
             
             fTC = 0;
             tr.resetFitness();
+
+            world_counter++;
+            if(world_counter > max_world)
+            	world_counter = 0;
+            std::ostringstream oss;
+            oss << world_counter;
+            w = world();
+            w.LoadFile(worldfile+oss.str()+".sim");
+
             if(maxgen > -1 && generation > maxgen)
                 break;
         }
